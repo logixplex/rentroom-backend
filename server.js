@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const signupRoutes = require("./user/user.route");
+const sendOtpRoutes = require("./email/sendOTP.route")
+ 
 const connectDB = require('./db/connection');
 require('dotenv').config();
 
@@ -14,6 +16,10 @@ app.get("/", (req, res) => {
 
 // Use signup routes
 app.use("/api", signupRoutes);
+
+// send otp
+
+app.use("/" , sendOtpRoutes)
 
 // Start the server
 const PORT = process.env.PORT;

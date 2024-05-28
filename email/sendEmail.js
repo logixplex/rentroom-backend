@@ -1,12 +1,24 @@
 const nodemailer = require('nodemailer');
 
-async function sendEmail (email, otp){
+const sendEmail= async (email, otp) =>{
 
-    const transportar = await nodemailer.createTransport({
+    const transporter = await nodemailer.createTransport({
         service:'Gmail' ,
-         auth:{
-            
-         }
+        auth: {
+            user: 'arcodewar@gmail.com',
+            pass: 'uxow eecd maam huqm'
+        }
 
     })
+
+    const mailOptions = {
+        from: 'arcodewar@gmail.com',
+        to: email,
+        subject: 'OTP Verification',
+        text: `Your OTP is: ${otp}`
+    };
+    await transporter.sendMail(mailOptions);
+    console.log('OTP email sent');
 }
+
+module.exports = sendEmail

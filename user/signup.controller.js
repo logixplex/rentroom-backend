@@ -1,3 +1,4 @@
+const  sendEmail  = require("../email/sendEmail");
 const Users = require("./user.modal");
 const bcrypt = require("bcryptjs")
 
@@ -21,8 +22,10 @@ const SignupController = async (req, res) => {
             phone,
             password: hashedPassword,
             userType
-          });
-        const response  = await Users.create(newUser);
+        });
+
+       
+        const response = await Users.create(newUser);
         return res.status(201).send({
             message: true,
             data: newUser,
