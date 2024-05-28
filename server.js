@@ -1,11 +1,22 @@
 const express = require('express');
-
 const app = express();
+const signupRoutes = require("./user/user.route");
+const connectDB = require('./db/connection');
+require('dotenv').config();
 
-app.use("/",(req,res)=>{
-    res.send("fcvghbjn")
-})
+app.use(express.json());
 
-app.listen(5000 , ()=>{
-    console.log("Server Started.")
-})
+connectDB();
+
+app.get("/", (req, res) => {
+    res.send("Welcome");
+});
+
+// Use signup routes
+app.use("/api", signupRoutes);
+
+// Start the server
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+});

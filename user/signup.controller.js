@@ -1,28 +1,40 @@
 const Users = require("./user.modal");
-const bcrypt  = require("bcryptjs")
-const signup = async(req,res)=>{
-    const {name, email, phone, password, userType } = req.body;
+const bcrypt = require("bcryptjs")
 
-    try{
-        const isUser = await Users.findOne({email})
+const SignupController = async (req, res) => {
+    const { name, email, phone, password, userType } = req.body;
 
-        if(isUser){
+    try {
+        const isUser = await Users.findOne({ email })
+
+        if (isUser) {
             return res.status(400).send({
-                success:false,
-                message:"User already registered."
+                success: false,
+                message: "User already registered."
             })
         }
-        let newUser = new Users({name, email , phone ,password , userType})
         const salt = await bcrypt.genSalt(10);
-        newUser.password = await salt.hash(password , salt);
-
-        await newUser.save()
-
-    } 
-    catch(err){
-       return res.status(500).send({
-            success:false ,
-            message:"Failed to Register User."
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const newUser = new Users({
+            name,
+            email,
+            phone,
+            password: hashedPassword,
+            userType
+          });
+        const response  = await Users.create(newUser);
+        return res.status(201).send({
+            message: true,
+            data: newUser,
+            message: "User Registered Successfully."
+        })
+    }
+    catch (err) {
+        return res.status(500).send({
+            success: false,
+            message: "Failed to Register User."
         })
     }
 }
+
+module.exports = SignupController
