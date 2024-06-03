@@ -1,6 +1,6 @@
 const sendEmail = require("./sendEmail");
 const OTPSchema = require("./otp.modal")
-
+const UserSchema = require("../user/user.modal")
 const sendOTPController = async (req, res) => {
 
     const {email} = req.body;
@@ -39,8 +39,11 @@ const verifyOTPController = async (req, res) => {
                 message : "Invalid OTP."
             })
         }
-        
-       return  res.status(200).json({ message: 'OTP Verified successfully' });
+       
+        const update = { isverifyEmail: true };
+        const user = await UserSchema.findOneAndUpdate({email:email}, update, { new: true });
+
+       return  res.status(200).json({sucess:true,isVerified: user.isverifyEmail, message: 'OTP Verified successfully' });
     } catch (error) {
         console.error('Error sending OTP:', error);
         return res.status(500).json({ message: 'Failed to send OTP' });

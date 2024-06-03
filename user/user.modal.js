@@ -7,11 +7,17 @@ const UserSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, "Email is required."]
+        required: [true, "Email is required."],
+        unique: true,
+        match: [
+            /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+            'Please add a valid email'
+        ]
     },
     phone: {
         type: Number,
-        required: [true, "Phone Number is required."]
+        required: [true, "Phone Number is required."],
+        minlength:10,
     },
     userType: {
         type: Number,
@@ -19,8 +25,15 @@ const UserSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, "Password is required."]
+        required: [true, "Password is required."],
+        minlength: 8,
     },
+    isverifyEmail:{
+        type:Boolean,
+        default:false
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
     createdAt: {
         type: Date,
         default: Date.now  // Use default with Date.now

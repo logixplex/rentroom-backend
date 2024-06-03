@@ -23,7 +23,9 @@ const LoginController = async (req, res) => {
                 message: "Invalid Credentials."
             })
         }
-        const token = jwt.sign({ userId: isUser._id }, "CFVGYBH43567B@#$%^&HBV$%&*457&$%YTFDFJ", { expiresIn: '24h' });
+        const token = jwt.sign({ userId: isUser._id ,email:isUser.email , name:isUser.name,phone:isUser.phone }, 
+            secret_key, 
+            { expiresIn: '24h' });
        
         const userData = {
             name: isUser.name,
