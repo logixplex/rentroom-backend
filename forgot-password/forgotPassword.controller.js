@@ -6,7 +6,6 @@ const forgotPasswordController = async (req, res) => {
     try {
         const { email } = req.body;
 
-        // Check if email is provided
         if (!email) {
             return res.status(400).json({
                 success: false,
@@ -14,7 +13,6 @@ const forgotPasswordController = async (req, res) => {
             });
         }
 
-        // Find user by email
         const user = await UserSchema.findOne({ email: email });
         if (!user) {
             return res.status(404).json({
