@@ -3,7 +3,9 @@ const app = express();
 const signupRoutes = require("./user/user.route");
 const sendOtpRoutes = require("./email/sendOTP.route")
 const roomRoutes = require("./addRoom/rooms.route")
- 
+
+app.use(cors());
+
 const connectDB = require('./db/connection');
 require('dotenv').config();
 
